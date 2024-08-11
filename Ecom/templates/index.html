@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-button').addEventListener('click', function() {
+                const country = document.getElementById('search-input').value;
+                console.log('Search button clicked. Country:', country);
+                fetchPlaces(country);
+            });
+        });
+
+
+        function fetchPlaces(country) {
+            fetch(`/api/places/?country=${encodeURIComponent(country)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    displayPlaces(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        function displayPlaces(data) {
+            const container = document.getElementById('places');
+            container.innerHTML = '';
+
+            if (Object.keys(data).length === 0) {
+                container.textContent = 'No places found.'
+                return;
+            }
+
+            for (const category in data) {
+                if (data.hasOwnProperty(category) && data[category].length > 0) {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.classList.add('category', 'bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'mb-6');
+
+                    const categoryTitle = document.createElement('h3');
+                    categoryTitle.classList.add('text-xl', 'font-semibold', 'mb-4');
+                    categoryTitle.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
+                    categoryDiv.appendChild(categoryTitle);
+
+                    const cardContainer = document.createElement('div');
+                    cardContainer.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-4', 'gap-y-6');
+
+                    data[category].forEach(place => {
+                        const placeCard = document.createElement('div');
+                        placeCard.classList.add('bg-gray-100', 'p-4', 'rounded-lg', 'shadow-md', 'hover:shadow-lg');
+
+                        const placeContent = document.createElement('div');
+                        placeContent.classList.add('mt-2');
+                        placeContent.innerHTML = `
+                            <h4 class="text-lg font-semibold">${place.name}</h4>
+                            <p>${place.description}</p>
+                            <p class="mt-2 text-sm text-gray-500">Rating: ${place.rating}</p>
+                        `;
+
+                        placeCard.appendChild(placeContent);
+                        cardContainer.appendChild(placeCard);
+                    });
+
+                    categoryDiv.appendChild(cardContainer);
+                    container.appendChild(categoryDiv);
+                }
+            }
+        }
+    </script>
+</head>
+<body class="relative w-full min-h-screen bg-cover bg-center" style="background-image: url('https://i.pinimg.com/originals/02/15/25/021525507a79c115108090ff2772476c.jpg');">
+
+    <!-- NAVBAR STARTS HERE -->
+    <div class="fixed top-0 left-0 w-full flex m-6 p-4 bg-white/20 backdrop-blur-lg rounded-lg border-none shadow-none z-10">
+        <ul class="flex space-x-6">
+            <li class="text-white hover:bg-yellow-400 rounded-full cursor-pointer px-5 flex items-center gap-x-2 font-bold">
+                <span class="material-symbols-outlined">home</span> Home
+            </li>
+            <li class="text-white hover:bg-yellow-400 rounded-full cursor-pointer px-5 flex items-center gap-x-2 font-bold">
+                <span class="material-symbols-outlined">info</span> About
+            </li>
+            <li class="text-white hover:bg-yellow-400 rounded-full cursor-pointer px-5 flex items-center gap-x-2 font-bold">
+                <span class="material-symbols-outlined">contacts_product</span> Contact
+            </li>
+            <li class="flex items-center space-x-2">
+                <div class="relative">
+                    <input type="text" id="search-input" class="border border-gray-300 rounded-full py-1 px-8 pr-12" placeholder="Search country">
+                    <i class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <!-- <div class="relative">
+                <input type="text" id="search-input" class="border border-gray-300 rounded-full py-1 px-8" placeholder="Search country">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                </div> -->
+                <button id="search-button" class="px-6 py-2 bg-yellow-500 hover:bg-yellow-200 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm text-white">
+                    Search
+                </button>
+            </li>
+        </ul>
+    </div>
+    <!-- NAVBAR ENDS HERE -->
+
+    <!-- MAIN CONTENT STARTS -->
+    <div class="pt-24 relative w-full min-h-screen bg-cover bg-center" style="background-image: url('https://i.pinimg.com/originals/02/15/25/021525507a79c115108090ff2772476c.jpg');">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div> 
+        <div class="relative max-w-7xl mx-auto p-8 pb-20"> <!-- Added padding bottom -->
+
+
+            <div class="flex justify-start items-start px-6 mb-4">
+                <ul class="flex space-x-6">
+                    <li>
+                        <i class="fa-brands fa-instagram fa-1x text-white"></i>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-twitter fa-1x text-white"></i>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-facebook-f fa-1x text-white"></i>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-youtube fa-1x text-white"></i>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="flex flex-col items-start text-left font-bold text-7xl text-white">
+
+                <div class="mb-4">
+                    <span>Explore</span><br><span>The</span><br><span>World</span>
+                </div>
+
+                <div class="w-full text-black text-sm">
+                    <div class="grid grid-cols-1 gap-y-6" id="places">
+                        <!-- Your card content will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="text-sm text-white mt-4">
+                    <span class="italic">Beautiful places to visit in the world excited</span><br>
+                    <span class="italic">to visit these places come with us we help</span><br>
+                    <span class="italic">you to reach your destination travel with us</span><br>
+                    <span class="italic">Join Here</span>
+                </div>
+                <div class="mt-4">
+                    <button type="button" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-9 py-2.5 font-bold">Explore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN CONTENT ENDS -->
+
+    <!-- FOOTER STARTS -->
+
+    <!-- FOOTER STARTS -->
+<div class="bg-transparent fixed bottom-0 left-0 w-full text-sm text-gray-500 py-4 border-t-0 border-gray-300 ">
+    <div class="text-center font-bold text-white">
+        Copyright 2024 Travel. All rights reserved
+    </div>
+</div>
+<!-- FOOTER ENDS -->
+
+    <!-- <div class=" bg-transparent fixed bottom-0 left-0 w-full bg-white text-sm text-gray-500 py-4">
+        <div class="text-center font-bold">
+            Copyright 2024 Travel. All rights reserved
+        </div>
+    </div> -->
+    <!-- FOOTER ENDS -->
+
+</body>
+</html>
