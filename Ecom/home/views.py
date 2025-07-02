@@ -4,44 +4,47 @@ from django.http import JsonResponse
 # Hardcoded JSON data
 PLACES_DATA = {
     "Japan": {
-        # "image" : "https://as2.ftcdn.net/v2/jpg/01/22/01/51/1000_F_122015145_k2jNV8ed5pAlYi9fRjQAzjtZ8DVAYhF9.jpg",
         "temples": [
-             {"name": "Kyoto Temple", "image": "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpg", "description": "Historic temple in Kyoto", "rating": 4.7 ,},
-            {"name": "Senso-ji Temple", "description": "Ancient temple in Tokyo", "rating": 4.6}
+            {"name": "Kyoto Temple", "image":"/static/istockphoto-508628776-612x612.jpg", "description": "Historic temple in Kyoto", "rating": 4.7},
+            {"name": "Senso-ji Temple", "description": "Ancient temple in Tokyo", "rating": 4.6 , "image": "/static/visit_img07_l.jpg"}
         ],
-        "bars": [
-            {"name": "Bar Kyu", "description": "Cozy bar in Tokyo", "rating": 4.3}
+                "collegs": [
+            {"name": "keiou university", "description": "University of Science", "image": "/static/images.jpg"},
+            {"name": "Hokkaido university", "description": "Applied Science", "image": "/static/hokkaido_university-cropped.jpg"}
         ],
-        "entertainment": [
-            {"name": "Tokyo Tower", "description": "Iconic landmark in Tokyo", "rating": 4.5}
+        "Entertaiment": [
+            {"name": "Bar Kyu", "description": "Cozy bar in Tokyo", "rating": 4.3, "image": "/static/659-kue-bar-at-westin-hotel-in-pune-maharashtra--food-drinks-image-Kue_bar_110711_MD_16.jpg"},
+            {"name": "The SG club", "description": "club", "rating": 4.1, "image": "/static/a0000782_main.jpg"}
         ],
-        "collegs": [
-            {"name":"Ebanezzar college" ,"description":"university of science"},
-              {"name":"Antman college" ,"description":"Applied science"}
-        ]
+        # "view cafe": [
+        #     kabukicho-tower-night
+        #     kabukicho-tower-night
+        # ],
     },
     "America": {
-        "temples": [],
-        "bars": [
-            {"name": "Bar Central", "description": "Popular bar in New York", "rating": 4.4},
-                        {"name": "Bar Central", "description": "Popular bar in New York", "rating": 4.4},
-                                    {"name": "Bar Central", "description": "Popular bar in New York", "rating": 4.4},
-                                                {"name": "Bar Central", "description": "Popular bar in New York", "rating": 4.4},
-                                                            {"name": "Bar Central", "description": "Popular bar in New York", "rating": 4.4}
+        "Temples": [
+             {"name":"Shiva Temple","description":"first Hindu temple in USA’s ","image":" /static/sri-rama-temple-hindu-temple-greater-chicago-lemont-illinois.jpg"},
+             {"name":"Ganesh Temple","description":"Malibu Hindu Temple, Calabasas, California ","image":" /static/Malibu-Hindu-Temple-California.jpg"},
+            {"name":"Iraivan Temple","description":"Iraivan Temple, Hawaii","image":" /static/Iraivan-Temple-Iraivan-Temple-Hawaii-1024x618.jpg"},
+           
+             ],
+           
+        "pubs and Liquor": [
+            {"name": "Barrel & Brews.", "description": "Cozy bar", "rating": 4.3, "image": "/static/659-kue-bar-at-westin-hotel-in-pune-maharashtra--food-drinks-image-Kue_bar_110711_MD_16.jpg"},
+            {"name": "Whiskey Dreams", "description": "club", "rating": 4.1, "image":"/static/1464214000-best-bars-lead.jpg"}
         ],
-        "entertainment": [
-            {"name": "Statue of Liberty", "description": "Symbol of freedom in New York", "rating": 4.8},
-            {"name": "Grand Canyon", "description": "Massive canyon in Arizona", "rating": 4.9},
-             {"name": "Statue of Liberty", "description": "Symbol of freedom in New York", "rating": 4.8},
-            {"name": "Grand Canyon", "description": "Massive canyon in Arizona", "rating": 4.9}
+       
+        "Entertainments": [
+            {"name": "Houston", "description": "The City With No Limits", "rating": 4.8, "image": "/static/HOUSTON.jpg"},
+         {"name": "Disney Animal", "description": "Disney Animal kingdome park", "rating": 4.8, "image": "/static/Tree_of_Life,_Disney's_Animal_Kingdom.jpg"},
+            {"name": "Time square", "description": "Heart of Newyork city", "rating": 4.9, "image": "/static/Times-Square-andreas-m-unsplash-scaled.jpg"}
         ]
     }
 }
 
 
-
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'home.html')
 
 def places_view(request):
     country = request.GET.get('country')
