@@ -57,10 +57,14 @@ CORS_ALLOW_ALL_ORIGINS = True  # For development only
 
 ROOT_URLCONF = 'Ecom.urls'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_DIR = BASE_DIR.parent  # This now points to 'travel'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [PROJECT_DIR / 'frontend' / 'templates'],  # ✅ corrected path
+        # 'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
